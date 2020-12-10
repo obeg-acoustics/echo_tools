@@ -1,0 +1,109 @@
+function [echogram] = echogram_extract(data, echosounder_sensitivity)
+% Input :
+%   - data : the data structure is extracted from the raw file and put into a structure that contains a lot of infornations
+%   - echosounder_sensitivity : the value of the minimum signal the echosounder can detect.
+% 
+% Output :
+%   - echogram : a structure the contains only the informations from data that are useful for the process
+% 
+% This function extracts from the raw files all the informations we will need to process the data : Sv, the time at which each ping is emitted, the transducer depth, the depth, the gps coordinates.
+
+
+% Pings : Here, we create a pings vector whose lenght is the same as the number of frequencies
+
+for i=1:length(data.pings)
+	echogram.pings(i).Sv		= data.pings(i).Sv;
+	echogram.pings(i).time 		= data.pings(i).time;
+    echogram.pings(i).roll 		= data.pings(i).roll;
+    echogram.pings(i).pitch 	= data.pings(i).pitch;
+    echogram.pings(i).soundvelocity   = data.pings(i).soundvelocity;
+	echogram.pings(i).transducerdepth = data.pings(i).transducerdepth;
+	echogram.pings(i).range		= data.pings(i).range;
+end
+
+% The GPS coordinates were not taken at each ping, that's why the pings number and the coordinates number are not equal. However, they're quite similar. And that's why we need another time vector : GPS time.
+
+echogram.gps.time 	= data.gps.time;
+echogram.gps.lat 	= data.gps.lat;
+echogram.gps.lon 	= data.gps.lon;
+
+
+% We replace the values that are below the echosounder sensitivity by NaNs.
+
+for i=1:length(data.pings)
+	ind = find(echogram.pings(i).Sv < echosounder_sensitivity);
+	echogram.pings(i).Sv(ind) = NaN;
+end
+
+% We make sure that the time length for all the frequencies is the same.
+% Correct JG
+time_length = length(echogram.pings(1).time);
+time_vect = echogram.pings(1).time;
+range_length = length(echogram.pings(1).range);
+range_vect = echogram.pings(1).range;
+for i=2:length(echogram.pings)
+	if length(echogram.pings(i).time) > time_length
+                time_length = length(echogram.pings(i).time);
+                time_vect = echogram.pings(i).time;
+                roll_vect = echogram.pings(i).roll;
+                pitch_vect = echogram.pings(i).pitch;
+                soundvelocity_vect = echogram.pings(i).soundvelocity;
+	end
+        if length(echogram.pings(i).range) > range_length
+                range_length = length(echogram.pings(i).range);
+                range_vect = echogram.pings(i).range;
+        end
+end
+%
+%for i=1:length(echogram.pings)
+%	echogram.pings(i).Sv		= echogram.pings(i).Sv(:,1:time_length);
+%	echogram.pings(i).time 		= echogram.pings(i).time(1:time_length);
+%end
+%
+tmp = NaN*ones(range_length,time_length);
+for i=1:length(echogram.pings)
+	if ((size(tmp,1)~=size(echogram.pings(i).Sv,1))&(size(tmp,2)==size(echogram.pings(i).Sv,2)))
+        for r = 1:range_length
+            % r
+            indr = find(echogram.pings(i).range==range_vect(r));
+            if ~isempty(indr)
+				tmp(r,:) = echogram.pings(i).Sv(indr,:);
+            end
+        end
+        echogram.pings(i).Sv = tmp;
+        echogram.pings(i).range = range_vect;
+    end
+    if ((size(tmp,2)~=size(echogram.pings(i).Sv,2))&(size(tmp,1)==size(echogram.pings(i).Sv,1)))
+        for t = 1:time_length
+            %t
+            indt = find(echogram.pings(i).time==time_vect(t));
+            if ~isempty(indt)
+                tmp(:,t) = echogram.pings(i).Sv(:,indt);
+            end
+        end
+        echogram.pings(i).Sv = tmp;
+        echogram.pings(i).time = time_vect;
+        echogram.pings(i).roll = roll_vect;
+        echogram.pings(i).pitch = pitch_vect;
+        echogram.pings(i).soundvelocity = soundvelocity_vect;
+    end
+    if ((size(tmp,1)~=size(echogram.pings(i).Sv,1))&(size(tmp,2)~=size(echogram.pings(i).Sv,2)))
+        for r = 1:range_length
+            for t = 1:time_length
+                % r & t
+                indr = find(echogram.pings(i).range==range_vect(r));
+                indt = find(echogram.pings(i).time==time_vect(t));
+                if (~isempty(indr)&~isempty(indt))
+                    tmp(r,t) = echogram.pings(i).Sv(indr,indt);
+                end
+            end
+        end
+        echogram.pings(i).Sv = tmp;
+        echogram.pings(i).range = range_vect;
+        echogram.pings(i).time = time_vect;
+        echogram.pings(i).roll = roll_vect;
+        echogram.pings(i).pitch = pitch_vect;
+        echogram.pings(i).soundvelocity = soundvelocity_vect;
+    end
+end
+
