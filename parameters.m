@@ -39,20 +39,22 @@ horizontal_binsize = 30; 				   % In seconds
 
 INthreshold 	 = 10; 					   % dB.m-1
 INn 		 = 1; 					   % Number of pings
+INmin            = -80;                                    % dB.m-1
 
-ASthreshold 	 = 5; 					   % dB.m-1
-ASn 		 = 30; 					   % Number of pings
-R1 		 = 100; 				   % Range number (not in meters if the vertical binning is not 1 meter)
-R2 		 = 300; 				   % Range number (not in meters if the vertical binning is not 1 meter)
+ASthreshold 	 = 8; 					   % dB.m-1
+ASn 		 = 100; 				   % Number of pings
+R1 		 = 300; 				   % Range lower limit (in meters)
+R2 		 = 400; 				   % Range upper limit (in meters)
 
-TNthreshold 	 = 35; 					   % dB.m-1
-TNn 		 = 20; 					   % Range number
-TNm 		 = 50; 					   % Ping number
-mindepth 	 = 600; 				   % Range number (not in meters if the vertical binning is not 1 meter) 
+TNthreshold 	 = 15; 					   % dB.m-1
+TNm 		 = 50; 					   % Range number (~10m)
+TNn 		 = 50; 					   % Ping number
+TNmin            = -70;					   % dB.m-1		
+mindepth 	 = 300; 				   % Range limit (in meters) 
 
 BGn 		 = 40; 				   	   % Ping number
-BGm 		 = 15; 				   	   % Range number
-thresholdSNR 	 = 10;	 				   % Threshold for a ratio, no unit
+BGm 		 = 50; 				   	   % Range number (~10m)
+thresholdSNR 	 = 10;	 				   % Threshold for a ratio, dB.m-1
 noisemax 	 = -125;     				   % dB.m-1
 
 
@@ -97,17 +99,35 @@ distance_box_map = 10000; 				   % Meters
 depth_box_map 	 = [0, 50, 200, 350]; 			   % Meters, boundaries of the layers.
 
 
-% Parameters environmental drivers %%%%%%%%%%%%%%%%%%%%%%
+% Paths environmental drivers %%%%%%%%%%%%%%%%%%%%%%
+tagyear = '2015';
 
 % SST
-sstpath		 = '/data/project1/sbebin/acoustic_process_final/Data/Satellites/SST/2013/';
+sstpath_daily            = '/data/project1/data/MODIS/Aqua/day/sst/';
+sstpath_weekly           = '/data/project1/data/MODIS/Aqua/week/sst/';
 
 % Chl
-chlpath_daily		 = '/data/project1/data/GlobColour/daily_4km/CHL1/';
-chlpath_weekly		 = '/data/project1/data/GlobColour/weekly_4km/CHL1/';
+chlpath_daily            = '/data/project1/data/MODIS/Aqua/day/chlor_a/';
+chlpath_weekly           = '/data/project1/data/MODIS/Aqua/week/chlor_a/';
 
+% POC
+pocpath_daily            = '/data/project1/data/MODIS/Aqua/day/poc/';
+pocpath_weekly           = '/data/project1/data/MODIS/Aqua/week/poc/';
+
+% POC
+parpath_daily            = '/data/project1/data/MODIS/Aqua/day/par/';
+parpath_weekly           = '/data/project1/data/MODIS/Aqua/week/par/';
+
+% SSH
+sshpath_daily            = '/data/project3/jguiet/DATA/SAT/SSH/';
+sshpath_weekly           = '/data/project3/jguiet/DATA/SAT/SSH/';
+
+% ERA
+erapath_daily            = '/data/project3/jguiet/DATA/ERA/';
+
+% MLD
+mldpath_weekly           = '/data/project3/jguiet/DATA/SODA/2015/';
 
 % Bathymetry (ETOPO)
-bathypath        = '/data/project1/jguiet/DATA/BATHY/ETOPO_depth.mat';
-
+bathypath        = '/data/project3/jguiet/DATA/BATHY/ETOPO_depth.mat';
 

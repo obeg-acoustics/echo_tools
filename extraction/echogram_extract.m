@@ -41,6 +41,9 @@ time_length = length(echogram.pings(1).time);
 time_vect = echogram.pings(1).time;
 range_length = length(echogram.pings(1).range);
 range_vect = echogram.pings(1).range;
+roll_vect  = echogram.pings(1).roll;
+pitch_vect = echogram.pings(1).pitch;
+soundvelocity_vect = echogram.pings(1).soundvelocity;
 for i=2:length(echogram.pings)
 	if length(echogram.pings(i).time) > time_length
                 time_length = length(echogram.pings(i).time);

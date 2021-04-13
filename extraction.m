@@ -1,4 +1,4 @@
-% Extraction Script
+% Echogram Extraction Script
 %
 % This script loads the different raw files we want to process. Then it concatenates them into a single structure named echogram
 %

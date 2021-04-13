@@ -21,6 +21,13 @@ range_coarse = echogram.pings(1).range;
 % Smoothing of ping to ping variability
 depth_smooth = smoothdata(depth_fine,'movmean',10);
 
+% Adjust lengths +/- 1 ping 
+if length(time_fine)>length(depth_smooth)
+    depth_smooth = [depth_smooth, NaN];
+elseif length(time_fine)<length(depth_smooth) 
+    time_fine = [time_fine, NaN];
+end
+
 % Interpolate depth on coarser times 
 depth_coarse = interp1(time_fine,depth_smooth,time_coarse); %ATT 1:end-1 fix
 depth_coarse = fillmissing(depth_coarse,'movmean',10);
