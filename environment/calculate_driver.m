@@ -34,10 +34,10 @@ for i=1:length(Y_bin)
         % Distance bins
         X = [dist;distance(ind_dist)];
 
-        Y_bin(i) = nansum(diff(X).*Y(ind_dist))./nansum(diff(X));
-        lon_bin(i) = nansum(diff(X).*lon(ind_dist))./nansum(diff(X));
-        lat_bin(i) = nansum(diff(X).*lat(ind_dist))./nansum(diff(X));
-        time_bin(i) = nansum(diff(X).*time(ind_dist))./nansum(diff(X));
+        Y_bin(i) = nansum(diff(X).*Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
+        lon_bin(i) = nansum(diff(X).*lon(ind_dist).*Y(ind_dist)./Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
+        lat_bin(i) = nansum(diff(X).*lat(ind_dist).*Y(ind_dist)./Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
+        time_bin(i) = nansum(diff(X).*time(ind_dist).*Y(ind_dist)./Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
     else
         Y_bin(i) = NaN;
         lon_bin(i) = NaN;

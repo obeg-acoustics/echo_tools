@@ -119,7 +119,6 @@ parpath_daily            = '/data/project1/data/MODIS/Aqua/day/par/';
 parpath_weekly           = '/data/project1/data/MODIS/Aqua/week/par/';
 
 % SSH
-sshpath_daily            = '/data/project3/jguiet/DATA/SAT/SSH/';
 sshpath_weekly           = '/data/project3/jguiet/DATA/SAT/SSH/';
 
 % ERA

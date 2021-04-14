@@ -1,11 +1,11 @@
-% % Area Backscatter Extraction Script
-% %
-% % This script extracts area backscatter Sa on selected depth range, fo MFI ranger selected MFI range 
-% % 
-% % Jerome Guiet
+% Area Backscatter Extraction Script
+%
+% This script extracts area backscatter Sa on selected depth range, fo MFI ranger selected MFI range 
+% 
+% Jerome Guiet
 % keyboard
  
-% clear all
+clear all
 
 % Load the different pathes and parameters in parameters.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
