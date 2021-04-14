@@ -25,15 +25,16 @@ for i=1:length(Y_bin)
     if i == length(Y_bin)
         dist   = nanmin(distance)+(i-1)*dL;
         distp1 = nanmax(distance);
+        ind_dist = find((distance>=dist)&(distance<distp1));
+        X  = [dist;distance(ind_dist)];
     else
         dist   = nanmin(distance)+(i-1)*dL;
         distp1 = nanmin(distance)+i*dL;
+        ind_dist = find((distance>=dist)&(distance<distp1));
+        X  = [dist;distance(ind_dist);distp1];
+        ind_dist = [ind_dist;ind_dist(end)+1]';
     end
-    ind_dist = find((distance>=dist)&(distance<distp1)); 
     if ~isempty(ind_dist)
-        % Distance bins
-        X = [dist;distance(ind_dist)];
-
         Y_bin(i) = nansum(diff(X).*Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
         lon_bin(i) = nansum(diff(X).*lon(ind_dist).*Y(ind_dist)./Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
         lat_bin(i) = nansum(diff(X).*lat(ind_dist).*Y(ind_dist)./Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
