@@ -14,6 +14,7 @@ DL = 4000;
 
 % Load echogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load('echogram_filtered_Cleaned.mat')
+[echogram] = correct_echogram(echogram)
 
 %[echogram] = distance_vector(echogram)
 
@@ -56,21 +57,25 @@ ssh = echogram.ssh;
 %%FRONT
 %[echogram] = front_dw(echogram,sstpath_daily,sstpath_weekly);
 %front = echogram.front;
-%
-%%Wind
+
+%Wind
 %[echogram] = era(echogram,erapath_daily);
 %vel10 = echogram.vel10;
-%
-%%bathy
-%[echogram] = topo_extract(echogram,bathypath);
-%topo.lon_topo = vel10.lon_vel10;
-%topo.lat_topo = vel10.lat_vel10;
-%topo.values   = echogram.topo;
-%
-%%MLD
-%[echogram] = mld(echogram,mldpath_weekly,tagyear);
-%mld = echogram.mld;
+%[vel10.daily_vel10_bin,vel10.lon_vel10_bin,vel10.lat_vel10_bin,vel10.time_vel10_bin] = ...
+%        calculate_driver(vel10.daily_vel10,DL,vel10.time_vel10,vel10.lon_vel10,vel10.lat_vel10,echogram.pings(1).distance);
+
+%bathy
+[echogram] = topo(echogram,bathypath);
+topo = echogram.topo;
+[topo.bathy_bin,topo.lon_bathy_bin,topo.lat_bathy_bin,topo.time_bathy_bin] = ...
+        calculate_driver(topo.bathy,DL,topo.time_bathy,topo.lon_bathy,topo.lat_bathy,echogram.pings(1).distance);
+
+%MLD
+[echogram] = mld(echogram,mldpath_weekly,tagyear);
+mld = echogram.mld;
+[mld.weekly_mld_bin,mld.lon_mld_bin,mld.lat_mld_bin,mld.time_mld_bin] = ...
+        calculate_driver(mld.weekly_mld,DL,mld.time_mld,mld.lon_mld,mld.lat_mld,echogram.pings(1).distance);
 
 %save('Env_echogram.mat', 'sst', 'ssh', 'par', 'poc', 'chl', 'front', 'vel10', 'topo', 'mld')
-save('Env_echogram.mat', 'sst', 'ssh', 'par', 'poc', 'chl', 'solar')
+save('Env_echogram.mat', 'sst', 'ssh', 'par', 'poc', 'chl', 'solar','topo')
 

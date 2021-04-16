@@ -18,6 +18,7 @@ MFI_range   = [0,1];
  
 % Load echogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load('echogram_filtered_Cleaned.mat')
+[echogram] = correct_echogram(echogram)
 
 % Remove masked pings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for k = 1:length(echogram.pings)
