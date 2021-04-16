@@ -46,14 +46,18 @@ for j=1:length(echogram.pings)
         if i == length(sva)
             dist   = nanmin(distance)+(i-1)*dL;
             distp1 = nanmax(distance);
-            ind_dist = find((distance>=dist)&(distance<distp1));
-            X  = [dist;distance(ind_dist)]';
+            ind_dist = find((distance>=dist)&(distance<distp1));        
+            if ~isempty(ind_dist)
+                X  = [dist;distance(ind_dist)]';
+            end
         else
             dist   = nanmin(distance)+(i-1)*dL;
             distp1 = nanmin(distance)+i*dL;
             ind_dist = find((distance>=dist)&(distance<distp1));
-            X  = [dist;distance(ind_dist);distp1]';
-            ind_dist = [ind_dist;ind_dist(end)+1]';
+            if ~isempty(ind_dist)
+                X  = [dist;distance(ind_dist);distp1]';
+                ind_dist = [ind_dist;ind_dist(end)+1]';
+            end
         end
         if ~isempty(ind_dist)
             % Distance bins

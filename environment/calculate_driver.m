@@ -15,7 +15,6 @@ function [Y_bin,lon_bin,lat_bin,time_bin] = calculate_driver(Y, dL, time, lon, l
 %   - lat_bin : the binned latitude
 %   - time_bin : the average time step
 
-
 Y_bin = NaN*ones(1, round((nanmax(distance)-nanmin(distance))/dL) );
 lon_bin = NaN*ones(1, round((nanmax(distance)-nanmin(distance))/dL) );
 lat_bin = NaN*ones(1, round((nanmax(distance)-nanmin(distance))/dL) );
@@ -26,13 +25,17 @@ for i=1:length(Y_bin)
         dist   = nanmin(distance)+(i-1)*dL;
         distp1 = nanmax(distance);
         ind_dist = find((distance>=dist)&(distance<distp1));
-        X  = [dist;distance(ind_dist)];
+        if ~isempty(ind_dist)
+            X  = [dist;distance(ind_dist)];
+        end
     else
         dist   = nanmin(distance)+(i-1)*dL;
         distp1 = nanmin(distance)+i*dL;
         ind_dist = find((distance>=dist)&(distance<distp1));
-        X  = [dist;distance(ind_dist);distp1];
-        ind_dist = [ind_dist;ind_dist(end)+1]';
+        if ~isempty(ind_dist)
+            X  = [dist;distance(ind_dist);distp1];
+            ind_dist = [ind_dist;ind_dist(end)+1]';
+        end
     end
     if ~isempty(ind_dist)
         Y_bin(i) = nansum(diff(X).*Y(ind_dist))./nansum(diff(X).*Y(ind_dist)./Y(ind_dist));
