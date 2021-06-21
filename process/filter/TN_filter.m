@@ -26,7 +26,7 @@ end
 % FUNCTION
 fcn_prctile = @(x) prctile(x,TNprctile);
 
-keyboard
+
 % PROCESS
 for k=1:length(echogram.pings) % Loop upon all the frequencies
 
