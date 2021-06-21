@@ -93,7 +93,8 @@ for m = 1:length(echogram.pings) % Frequency loop
 			Svindex = Svindex + 1;
 		end
 		weight_matrix = repmat(weight_vector, length(echogram.pings(m).range), 1);
-                Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
+                %Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
+                Svbin(:,1) = 10 * log10(nansum(10.^(echogram.pings(m).Sv(:,1:Svindex)/10),2)/(size(echogram.pings(m).Sv(:,1:Svindex),2)));
 %		Svbin(:,1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2)/horizontal_binsize);
 % 		Svbin(:,1) = nansum(weight_matrix.*echogram.pings(m).Sv(:,1:Svindex),2)/horizontal_binsize;
         %Svindex = Svindex + 1;
@@ -107,7 +108,8 @@ for m = 1:length(echogram.pings) % Frequency loop
 		weight_vector = [weight_vector, distancebin(2)-(var-deltaR1)];
 		Svindex = Svindex + 1;
 		weight_matrix = repmat(weight_vector, length(echogram.pings(m).range), 1);
-                Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
+                %Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
+                Svbin(:,1) = 10 * log10(nansum(10.^(echogram.pings(m).Sv(:,1:Svindex)/10),2)/(size(echogram.pings(m).Sv(:,1:Svindex),2)));
 %		Svbin(:,1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2)/horizontal_binsize);
 % 		Svbin(:,1) = nansum(weight_matrix.*echogram.pings(m).Sv(:,1:Svindex),2)/horizontal_binsize;
     end
@@ -139,7 +141,8 @@ for m = 1:length(echogram.pings) % Frequency loop
 			weight_matrix = repmat(weight_vector, length(echogram.pings(m).range), 1);
 			%Svbin(i-1,:) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(Svindex1+1:Svindex2,:)/10)))/vertical_binsize);
 			%Svbin(i-1,:) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(Svindex1:Svindex2-1,:)/10)))/vertical_binsize);
-                        Svbin(:,i-1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2));                       
+                        Svbin(:,i-1) = 10 * log10(nansum(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10),2)/(size(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2),2)));
+                        %Svbin(:,i-1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2));                       
 %			Svbin(:,i-1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2)/horizontal_binsize);
 % 			Svbin(:,i-1) = nansum(weight_matrix.*echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2),2)/horizontal_binsize;
 
@@ -161,7 +164,8 @@ for m = 1:length(echogram.pings) % Frequency loop
 % end
 % end
 			%Svbin(i-1,:) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(Svindex1:Svindex2,:)/10)))/vertical_binsize);
-             Svbin(:,i-1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2));
+             Svbin(:,i-1) = 10 * log10(nansum(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10),2)/(size(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2),2)));
+            % Svbin(:,i-1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2));
 %            Svbin(:,i-1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2)/horizontal_binsize);
 %             Svbin(:,i-1) = nansum(weight_matrix.*echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2),2)/horizontal_binsize;
 
