@@ -75,6 +75,7 @@ end
 
 for m = 1:length(echogram.pings) % Frequency loop
 	Svbin = zeros(length(echogram.pings(m).range), length(timebin)-1)*NaN;
+        velobin = zeros(1, length(distancebin)-1)*NaN;
 
 	% First iteration
 	var = timebin(1);
@@ -97,6 +98,7 @@ for m = 1:length(echogram.pings) % Frequency loop
                 %Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
 %		Svbin(:,1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2)/horizontal_binsize);
 		%Svindex = Svindex + 1;
+                velobin(1,1) = nanmean(echogram.features.velocity(1,1:Svindex));
 	else
 		for k=1:j-1
                         deltaR1 = (echogram.pings(m).time(k+1) - echogram.pings(m).time(k))*24*60*60;
@@ -110,6 +112,7 @@ for m = 1:length(echogram.pings) % Frequency loop
                 Svbin(:,1) = 10 * log10(nansum(10.^(echogram.pings(m).Sv(:,1:Svindex)/10),2)/(size(echogram.pings(m).Sv(:,1:Svindex),2)));
                 %Svbin(:,1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2));
 %		Svbin(:,1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,1:Svindex)/10)),2)/horizontal_binsize);
+                velobin(1,1) = nanmean(echogram.features.velocity(1,1:Svindex));
 	end
 	Svindex1 = Svindex;
 	Svindex2 = Svindex;
@@ -144,6 +147,7 @@ for m = 1:length(echogram.pings) % Frequency loop
 %			Svbin(:,i-1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2)/horizontal_binsize);
 			%Svindex2 = Svindex2 + 1;
 			Svindex1 = Svindex2;
+                        velobin(1,i-1) = nanmean(echogram.features.velocity(1,Svindex2-length(weight_vector)+1:Svindex2));
         elseif (j~=0)
 			for k=1:j-1
                                 deltaR1 = (echogram.pings(m).time(Svindex1+k+1) - echogram.pings(m).time(Svindex1+k))*24*60*60;
@@ -164,6 +168,7 @@ for m = 1:length(echogram.pings) % Frequency loop
              %Svbin(:,i-1) = 10*log10(nanmean((10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2));
 %            Svbin(:,i-1) = 10*log10(nansum(weight_matrix.*(10.^(echogram.pings(m).Sv(:,Svindex2-length(weight_vector)+1:Svindex2)/10)),2)/horizontal_binsize);
 			Svindex1 = Svindex2;
+                        velobin(1,i-1) = nanmean(echogram.features.velocity(1,Svindex2-length(weight_vector)+1:Svindex2));
 		end
 	end
 	echogram.pings(m).Sv = Svbin;
@@ -180,5 +185,7 @@ for i=1:length(echogram.pings)
 	echogram.pings(i).time = timebinmean/24/60/60;
 end
 
-
+% Correct velocity
+echogram.features.velocity = velobin;
+echogram.features.time     = echogram.pings(1).time;
 
