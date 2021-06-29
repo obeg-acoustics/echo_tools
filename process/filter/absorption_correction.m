@@ -4,7 +4,7 @@ function [echogram] = absorption_correction(echogram)
 % climatolofical environmental conditions.
 
 % Default paramerters
-pH = 7.8;
+pH = 8.1;
 
 for k = 1:length(echogram.pings)
     

@@ -82,8 +82,25 @@ for i=2:length(fileschunk)
     else
         disp('This chunk does not include enough frequencies, concatenation impossible')
     end
+
+    % Check size
+    s = whos('echogram');
+    if (s.bytes/1024/1024/1024>5*2)
+       disp('This chunk reach excessive size, considee less days')
+    end
 end
 
+
+% Plot all frequency for visual check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure
+for k = 1:length(echogram.pings)
+    nfreq = length(echogram.pings);
+    subplot(nfreg,1,k)
+    imagesc(echogram.pings(k).Sv)
+    colorbar
+    caxis([-100,-40])
+end
+saveas(gcf,[outputpath,'cruise_freqs.png'])
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

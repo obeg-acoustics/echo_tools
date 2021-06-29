@@ -11,16 +11,18 @@ load echogram.mat
 parameters
 clock
 
-[echogram] = distance_vector(echogram)
+% Compute distance vector
+disp('Compute distance')
+[echogram] = distance_vector(echogram);
 
-
-% Motion correction TO TEST
-%[echogram] = motion_correction(echogram);
-
-% Few echogram corrections
+% Correct dimensions
 disp('Prepare echogram')
-% RM rows with NaN values
-[echogram] = rmnan(echogram);
+[echogram] = correct_echogram(echogram);
+
+% Motion correction
+disp('Motion correction')
+[echogram] = motion_correction(echogram);
+
 % Correct ranges
 for k = 1:5
     echogram.pings(k).range = echogram.pings(k).range - (echogram.calParms(k).pulselength*(echogram.calParms(k).soundvelocity/4));
@@ -40,7 +42,6 @@ disp('IN removal')
 % % Horizontal binning
 % [echogram] = horizontal_binning_distance2(echogram, 1000);
 
-
 % Bottom detection =================
 % window_radius = 100;
 disp('Bottom detect')
@@ -52,7 +53,7 @@ disp('Bottom detect')
 % R1          = 500;
 % R2          = 600;
 disp('AS removal')
-[echogram] = AS_filter(echogram, ASthreshold, ASn, R1, R2)
+[echogram] = AS_filter(echogram, ASthreshold, ASn, R1, R2);
 
 % Remove Transient Noise (TN) ======
 % TNthreshold = 15;
@@ -63,7 +64,7 @@ disp('AS removal')
 % TNminSv     = -150;
 % mindepth    = 250;
 disp('TN removal')
-[echogram] = TN_filter(echogram, TNthreshold, TNsmooth, TNn, TNm, TNminSv, mindepth, TNprctile)
+[echogram] = TN_filter(echogram, TNthreshold, TNsmooth, TNn, TNm, TNminSv, mindepth, TNprctile);
 
 % Background noise removal (BG) ====
 % BGn              = 10;
@@ -84,19 +85,27 @@ disp('RN removal')
 %vertical_binsize = 10;
 %[echogram] = data_removal(echogram, meters_above_bottom_removal, vertical_binsize, upper_layer_height);
 
+% Velocity vector ==================
+disp('Compute velocities')
+[echogram] = velocity_detection(echogram);
 
 % Binning =========================
+disp('Binning')
 % We vertically bin this echogram chunk
 [echogram] = vertical_binning(echogram, 1);
 % Horizontal binning
 [echogram] = horizontal_binning_time(echogram, 30);
 %[echogram] = horizontal_binning_distance(echogram, 1000);
 % Update distance for binned resolution
-[echogram] = distance_correct(echogram)
+[echogram] = distance_correct(echogram);
+
+% Correct absorption  =============
+disp('Absorption correction')
+[echogram] = absorption_correction(echogram);
 
 % Interpolated bottom removal =====
 disp('Bottom removal 2')
-[echogram] = bottom_coarsening(echogram)
+[echogram] = bottom_coarsening(echogram);
 [echogram] = data_removal(echogram, meters_above_bottom_removal, upper_layer_height);
 
 
