@@ -14,9 +14,9 @@ Sint = D*NaN;
 for m = 1:length(M)
     
     % Environment
-    T = Temperature_clim.avg_val(:,:,:,m);
+    T = Temperature_clim.avg_val(:,:,:,M(m));
     T(find(T>10^10)) = NaN;
-    S = Salinity_clim.avg_val(:,:,:,m);
+    S = Salinity_clim.avg_val(:,:,:,M(m));
     S(find(S>10^10)) = NaN;
  
     % Grid
@@ -28,7 +28,7 @@ for m = 1:length(M)
     FS = griddedInterpolant({Lon,Lat,depth},S);
 
     % Interpolate
-    ind = find(months==m);
+    ind = find(months==M(m));
 
     Tint(:,ind) = FT(repmat(lonpoints(ind)',[size(D,1),1]),repmat(latpoints(ind)',[size(D,1),1]),D(:,ind));
     Sint(:,ind) = FS(repmat(lonpoints(ind)',[size(D,1),1]),repmat(latpoints(ind)',[size(D,1),1]),D(:,ind));
