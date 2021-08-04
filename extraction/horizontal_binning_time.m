@@ -75,7 +75,7 @@ end
 
 for m = 1:length(echogram.pings) % Frequency loop
 	Svbin = zeros(length(echogram.pings(m).range), length(timebin)-1)*NaN;
-        velobin = zeros(1, length(distancebin)-1)*NaN;
+        velobin = zeros(1, length(timebin)-1)*NaN;
 
 	% First iteration
 	var = timebin(1);

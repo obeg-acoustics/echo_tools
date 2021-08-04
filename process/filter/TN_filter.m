@@ -42,8 +42,14 @@ for k=1:length(echogram.pings) % Loop upon all the frequencies
         Svsmooth = [];
 
         % CONTEXT PERCENTILE
-        % We create a vector that is a "block percentile" with TSnxTSm-sized-blocks.
-        SvNDprcblock = colfilt(SvND,[TNm TNn],'sliding',fcn_prctile);
+        % We create a vector that is a "block percentile" with TSnxTSm-sized-blocks. 
+        chunksize = 5000;
+        SvNDprcblock = SvND * NaN;
+        for c = 1:floor(size(SvND,2)/chunksize)
+             SvNDprcblock(:,(c-1)*chunksize+1:c*chunksize) = colfilt(SvND(:,(c-1)*chunksize+1:c*chunksize),[TNm TNn],'sliding',fcn_prctile);
+        end
+        SvNDprcblock(:,c*chunksize+1:end) = colfilt(SvND(:,c*chunksize+1:end),[TNm TNn],'sliding',fcn_prctile);
+%        SvNDprcblock = movmedian(movmedian(SvND,TNn,2,'omitnan'),TNm,1,'omitnan');
 %        SvNDprcblock = zeros(size(SvND,1),size(SvND,2));
 %        Ni = size(SvNDprcblock,1);
 %        Nj = size(SvNDprcblock,2);
@@ -83,7 +89,7 @@ for k=1:length(echogram.pings) % Loop upon all the frequencies
         % FIND PINGS TO EXTRACT
         % We find the indexes of the vector where the condition is filled to remove TN.
         ind1 = find(SvND(2:end-1,2:end-1) - SvNDprcblock(2:end-1,2:end-1) > TNthreshold); % Be careful, if a ping is surrounded by NaNs, it cannot be detected as an attenuated signal ping.
-
+        SvNDprcblock = [];
 
         % TVT
         SvTemp = echogram.pings(k).Sv(indvec(2:end-1),2:end-1); % We extract from Sv a submatrix SvTemp whose size is the same as Ldelta and Rdelta
