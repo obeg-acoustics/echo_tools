@@ -3,31 +3,31 @@ function [echogram] = correct_echogram(echogram)
 
 for k = 1:length(echogram.pings)
  
-    if iscolumn(echogram.pings(k).distance)
+    if isfield(echogram.pings(k),'distance') && iscolumn(echogram.pings(k).distance)
         echogram.pings(k).distance = echogram.pings(k).distance';
     end
-    if iscolumn(echogram.pings(k).lon)
+    if isfield(echogram.pings(k),'lon') && iscolumn(echogram.pings(k).lon)
         echogram.pings(k).lon = echogram.pings(k).lon';
     end
-    if iscolumn(echogram.pings(k).lat)
+    if isfield(echogram.pings(k),'lat') && iscolumn(echogram.pings(k).lat)
         echogram.pings(k).lat = echogram.pings(k).lat';
     end
-    if ~iscolumn(echogram.pings(k).range)
+    if isfield(echogram.pings(k),'range') && ~iscolumn(echogram.pings(k).range)
         echogram.pings(k).range = echogram.pings(k).range';
     end
-    if iscolumn(echogram.pings(k).time)
+    if isfield(echogram.pings(k),'time') && iscolumn(echogram.pings(k).time)
         echogram.pings(k).time = echogram.pings(k).time';
     end
-    if iscolumn(echogram.pings(k).pitch)
+    if isfield(echogram.pings(k),'pitch') && iscolumn(echogram.pings(k).pitch)
         echogram.pings(k).pitch = echogram.pings(k).pitch';
     end
-    if iscolumn(echogram.pings(k).roll)
+    if isfield(echogram.pings(k),'roll') && iscolumn(echogram.pings(k).roll)
         echogram.pings(k).roll = echogram.pings(k).roll';
     end
-    if iscolumn(echogram.pings(k).soundvelocity)
+    if isfield(echogram.pings(k),'soundvelocity') && iscolumn(echogram.pings(k).soundvelocity)
         echogram.pings(k).soundvelocity = echogram.pings(k).soundvelocity';
     end
-    if iscolumn(echogram.pings(k).transducerdepth)
+    if isfield(echogram.pings(k),'transducerdepth') && iscolumn(echogram.pings(k).transducerdepth)
         echogram.pings(k).transducerdepth = echogram.pings(k).transducerdepth';
     end
 
@@ -39,16 +39,16 @@ for k = 1:length(echogram.pings)
 
 end
 
-if ~iscolumn(echogram.gps.distance)
+if isfield(echogram.gps,'distance') && ~iscolumn(echogram.gps.distance)
     echogram.gps.distance = echogram.gps.distance';
 end
-if ~iscolumn(echogram.gps.lat)
+if isfield(echogram.gps,'lat') && ~iscolumn(echogram.gps.lat)
     echogram.gps.lat = echogram.gps.lat';
 end
-if ~iscolumn(echogram.gps.lon)
+if isfield(echogram.gps,'lon') && ~iscolumn(echogram.gps.lon)
     echogram.gps.lon = echogram.gps.lon';
 end
-if ~iscolumn(echogram.gps.time)
+if isfield(echogram.gps,'time') && ~iscolumn(echogram.gps.time)
     echogram.gps.time = echogram.gps.time';
 end
 
