@@ -280,7 +280,7 @@ for i=1:length(fullrange_candidatepeak)
 %if i == 4054
 % keyboard
 %end
-	if ~isnan(fullrange_candidatepeak(i))
+	if (~isnan(fullrange_candidatepeak(i)))&(fullrange_candidatepeak(i)>0)
 		while echogram.pings(l).Sv(fullrange_candidatepeak(i),i) > bottom_threshold
 			fullrange_candidatepeak(i) = fullrange_candidatepeak(i) - 1;
 			if fullrange_candidatepeak(i) == 1
@@ -314,7 +314,11 @@ ind = find(~isnan(fullrange_candidatepeak));
 bottom_depth = nan(size(fullrange_candidatepeak));
 
 for i=1:length(ind)
-	bottom_depth(ind(i)) = echogram.pings(l).range(fullrange_candidatepeak(ind(i)));
+	if fullrange_candidatepeak(ind(i))>0
+	    bottom_depth(ind(i)) = echogram.pings(l).range(fullrange_candidatepeak(ind(i)));
+	else 
+	    bottom_depth(ind(i)) = NaN;
+	end
 end
 
 echogram.bottom.bottom_indexes = fullrange_candidatepeak;

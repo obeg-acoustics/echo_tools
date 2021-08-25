@@ -28,8 +28,16 @@ for freq = 1:length(data.pings)
         pitch_receiv(i,:) = interp1(t_trans(i,:),data.pings(freq).pitch,t_receiv(i,:));
     end
 
+    t_trans = [];
+    t_receiv = [];    
+
     % Dunford Gamma angle
     [Gamma] = getangle(roll_trans,pitch_trans,roll_receiv,pitch_receiv);
+
+    roll_trans = [];
+    pitch_trans = [];
+    roll_receiv = [];
+    pitch_receiv = [];
 
     % amplification factor
     x = sind(Gamma) ./ sind(data.calParms(freq).beamwidthalongship / 2); 
