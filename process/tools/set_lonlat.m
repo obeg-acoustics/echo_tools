@@ -3,24 +3,37 @@ function [echogram] = set_lonlat(echogram,LON,LAT)
 
 for k = 1:length(echogram.pings)
  
-    if ~isfield(echogram.pings(k),'lon')
+%    if ~isfield(echogram.pings(k),'lon')
 	tmp = ones(size(echogram.pings(k).time));
         echogram.pings(k).lon = LON*tmp;
-    end
-    if ~isfield(echogram.pings(k),'lat')
+%    elseif isempty(echogram.pings(k).lon)
+%        tmp = ones(size(echogram.pings(k).time));
+%        echogram.pings(k).lon = LON*tmp;
+%    end
+%    if ~isfield(echogram.pings(k),'lat')
 	tmp = ones(size(echogram.pings(k).time));
         echogram.pings(k).lat = LAT*tmp;
-    end
+%    elseif isempty(echogram.pings(k).lat)
+%	tmp = ones(size(echogram.pings(k).time));
+%        echogram.pings(k).lat = LAT*tmp;
+%    end
 
 end
 
-if ~isfield(echogram.gps,'lat')
+%if ~isfield(echogram.gps,'lat')
     tmp = ones(size(echogram.pings(1).time));
-    echogram.gps.lat = LAT*tmp; 
-end
-if ~isfield(echogram.gps,'lon') 
+    echogram.gps.lat = LAT*tmp;
+%elseif isempty(echogram.gps.lat)
+%    tmp = ones(size(echogram.pings(1).time));
+%    echogram.gps.lat = LAT*tmp; 
+%end
+
+%if ~isfield(echogram.gps,'lon') 
     tmp = ones(size(echogram.pings(1).time));
     echogram.gps.lon = LON*tmp;
-end
+%elseif isempty(echogram.gps.lon)
+%    tmp = ones(size(echogram.pings(1).time));
+%    echogram.gps.lon = LON*tmp;
+%end
 
 return
