@@ -36,7 +36,7 @@ for m = 1:length(M)
 end
 
 % Fill nan values with nearest
-Tint = fillmissing(Tint,'linear',2,'EndValues','nearest');
-Sint = fillmissing(Sint,'linear',2,'EndValues','nearest');
+Tint = fillmissing(Tint,'nearest');
+Sint = fillmissing(Sint,'nearest');
 
 return
