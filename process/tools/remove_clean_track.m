@@ -7,14 +7,14 @@ r_end   = echogram.clean(freq).r_end;
 
 [m,n] = size(echogram.pings(1).Sv);
 
-p_start(find(p_start<0))=1;
+p_start(find(p_start<1))=1;
 p_start(find(p_start>n))=n;
-p_end(find(p_end<0))=1;
+p_end(find(p_end<1))=1;
 p_end(find(p_end>n))=n;
 
-r_start(find(r_start<0))=1;
+r_start(find(r_start<1))=1;
 r_start(find(r_start>m))=m;
-r_end(find(r_end<0))=1;
+r_end(find(r_end<1))=1;
 r_end(find(r_end>m))=m;
 
 for f = 1:nfreq
