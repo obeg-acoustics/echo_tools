@@ -24,7 +24,15 @@ for f = 1:nfreq
         X = [floor(p_start(k)):floor(p_end(k))+1];
         Y = a*X+b;
         for p = 1:length(X)
-            echogram.mask(f).SvManual(floor(Y(p))-window:floor(Y(p))+1+window,X(p))=NaN;
+            if (floor(Y(p))-window)<1
+                echogram.mask(f).SvManual(1:floor(Y(p))+1+window,X(p))=NaN;
+            elseif (floor(Y(p))+1+window)>m
+                echogram.mask(f).SvManual(floor(Y(p))-window:m,X(p))=NaN;
+            elseif ((floor(Y(p))-window)<1)&&((floor(Y(p))+1+window)>m)
+                echogram.mask(f).SvManual(1:m,X(p))=NaN;
+            else
+                echogram.mask(f).SvManual(floor(Y(p))-window:floor(Y(p))+1+window,X(p))=NaN;
+            end
         end
     end
 end
