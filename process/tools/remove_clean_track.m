@@ -10,7 +10,7 @@ r_end   = echogram.clean(freq).r_end;
 p_start(find(p_start<1))=1;
 p_start(find(p_start>n))=n;
 p_end(find(p_end<1))=1;
-p_end(find(p_end>n))=n;
+p_end(find(p_end>n-1))=n-1;
 
 r_start(find(r_start<1))=1;
 r_start(find(r_start>m))=m;
