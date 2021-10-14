@@ -17,7 +17,6 @@ for k = 1:length(echogram.pings)
 %	tmp = ones(size(echogram.pings(k).time));
 %        echogram.pings(k).lat = LAT*tmp;
 %    end
-
 end
 
 %if ~isfield(echogram.gps,'lat')
@@ -35,5 +34,5 @@ end
 %    tmp = ones(size(echogram.pings(1).time));
 %    echogram.gps.lon = LON*tmp;
 %end
-
+    echogram.gps.time = echogram.pings(1).time;
 return
