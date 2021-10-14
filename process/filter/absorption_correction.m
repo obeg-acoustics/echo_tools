@@ -33,7 +33,11 @@ for k = 1:length(echogram.pings)
     SvCorr_tmp = echogram.pings(k).Sv + 20 * log10(speedbar/double(echogram.calParms(k).soundvelocity)) + ...
                  2 * depths .* (absorbbar.*speedbar/double(echogram.calParms(k).soundvelocity)-double(echogram.calParms(k).absorptioncoefficient)) - ...
                  10 * log10(speedcoef/double(echogram.calParms(k).soundvelocity));
-    Y = repmat(echogram.pings(k).time',[size(depthsbar,1),1]);
+    if isfield(echogram.pings,'distance')
+        Y = repmat(echogram.pings(k).distance,[size(depthsbar,1),1]);
+    else
+        Y = repmat(echogram.pings(k).time,[size(depthsbar,1),1]);
+    end
 
     % Re-interpolate on depths ranges not corrected for abosorption
     F = scatteredInterpolant(depthsbar(:),Y(:),SvCorr_tmp(:));

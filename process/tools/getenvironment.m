@@ -30,13 +30,19 @@ for m = 1:length(M)
     % Interpolate
     ind = find(months==M(m));
 
-    Tint(:,ind) = FT(repmat(lonpoints(ind)',[size(D,1),1]),repmat(latpoints(ind)',[size(D,1),1]),D(:,ind));
-    Sint(:,ind) = FS(repmat(lonpoints(ind)',[size(D,1),1]),repmat(latpoints(ind)',[size(D,1),1]),D(:,ind));
+    Tint(:,ind) = FT(repmat(lonpoints(ind),[size(D,1),1]),repmat(latpoints(ind),[size(D,1),1]),D(:,ind));
+    Sint(:,ind) = FS(repmat(lonpoints(ind),[size(D,1),1]),repmat(latpoints(ind),[size(D,1),1]),D(:,ind));
 
 end
 
 % Fill nan values with nearest
-Tint = fillmissing(Tint,'nearest');
-Sint = fillmissing(Sint,'nearest');
+%Tint = fillmissing(Tint,'nearest');
+%Sint = fillmissing(Sint,'nearest');
 
+% Fill missing values horizontally
+Tint = fillmissing(Tint,'linear',2,'EndValues','nearest');
+Sint = fillmissing(Sint,'linear',2,'EndValues','nearest');
+% Fill missing values vertically
+Tint = fillmissing(Tint,'linear',1,'EndValues','nearest');
+Sint = fillmissing(Sint,'linear',1,'EndValues','nearest');
 return
