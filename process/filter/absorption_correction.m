@@ -40,7 +40,7 @@ for k = 1:length(echogram.pings)
     end
 
     % Re-interpolate on depths ranges not corrected for abosorption
-    F = scatteredInterpolant(depthsbar(:),Y(:),SvCorr_tmp(:));
+    F = scatteredInterpolant(depthsbar(:),Y(:),SvCorr_tmp(:),'linear','nearest');
     echogram.pings(k).Sv = F(depths,Y);
 
 end
