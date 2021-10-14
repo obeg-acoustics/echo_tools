@@ -186,8 +186,8 @@ end
 
 % length(timebin) and length(Svbin(:,1)) have one index of difference, so we create a new range vector that has exactly the same length of Svbin, so that we can use it to plot Svbin
 
-timebinmean = zeros(length(timebin)-1,1);
-timebinmean(1:length(timebin)-1) = (timebin(1:length(timebin)-1)+timebin(2:length(timebin)))/2;
+timebinmean = zeros(1,length(timebin)-1);
+timebinmean(1,1:length(timebin)-1) = (timebin(1:length(timebin)-1)+timebin(2:length(timebin)))/2;
 
 for i=1:length(echogram.pings)
 	echogram.pings(i).time = timebinmean/24/60/60;

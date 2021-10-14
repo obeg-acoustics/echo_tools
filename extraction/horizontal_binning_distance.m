@@ -9,6 +9,7 @@ function [echogram] = horizontal_binning_distance(echogram, horizontal_binsize)
 %	- binned echogram
 
 
+
 % We make sure that all the echograms of all the frequencies have the same size in distance
 
 distance_length = length(echogram.pings(1).distance);
@@ -185,8 +186,8 @@ end
 % length(timebin) and length(Svbin(:,1)) have one index of difference, so we create a new range vector that has exactly the same length of Svbin, so that we can use it to plot Svbin
 % and estimate corresponding time vector
 
-distancebinmean = zeros(length(distancebin)-1,1);
-distancebinmean(1:length(distancebin)-1) = (distancebin(1:length(distancebin)-1)+distancebin(2:length(distancebin)))/2;
+distancebinmean = zeros(1,length(distancebin)-1);
+distancebinmean(1,1:length(distancebin)-1) = (distancebin(1:length(distancebin)-1)+distancebin(2:length(distancebin)))/2;
 
 for i=1:length(echogram.pings)
         [refdistance, ia, ic] = unique(echogram.pings(i).distance);
