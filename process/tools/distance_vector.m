@@ -24,16 +24,33 @@ for i=1:length(echogram.pings) % Warning, time vector might be different for the
 	time_ping = echogram.pings(i).time;
     % Correction of the time vector for non monotonic segments (JG)
     time_gps(find(diff(time_gps)<=0)) = NaN;
-	distance_ping = interp1(time_gps(find(~isnan(time_gps))), distance_gps(find(~isnan(time_gps))), time_ping);
+        ind1 = find(~isnan(time_gps));
+        [C,ind2] = unique(time_gps);
+        [C,ind3] = unique(distance_gps);
+        inda = intersect(ind1,ind2);
+        indb = intersect(ind1,ind3); 
+	%distance_ping = interp1(time_gps(find(~isnan(time_gps))), distance_gps(find(~isnan(time_gps))), time_ping);
+        distance_ping = interp1(time_gps(intersect(inda,indb)), distance_gps(intersect(inda,indb)), time_ping);
 	echogram.pings(i).distance = distance_ping;
 end
 
 for i=1:length(echogram.pings)
     % Correction of the time vector for non monotonic segments (JG)
-    echogram.gps.time(find(diff(echogram.gps.time)<=0)) = NaN;
-	lat_ping = interp1(echogram.gps.time(find(~isnan(echogram.gps.time))), echogram.gps.lat(find(~isnan(echogram.gps.time))), echogram.pings(i).time);
-	lon_ping = interp1(echogram.gps.time(find(~isnan(echogram.gps.time))), echogram.gps.lon(find(~isnan(echogram.gps.time))), echogram.pings(i).time);
+    %echogram.gps.time(find(diff(echogram.gps.time)<=0)) = NaN;
+%	lat_ping = interp1(echogram.gps.time(find(~isnan(echogram.gps.time))), echogram.gps.lat(find(~isnan(echogram.gps.time))), echogram.pings(i).time);
+%	lon_ping = interp1(echogram.gps.time(find(~isnan(echogram.gps.time))), echogram.gps.lon(find(~isnan(echogram.gps.time))), echogram.pings(i).time);
+        time_ping = echogram.pings(i).time;
+    % Correction of the time vector for non monotonic segments (JG)
+    time_gps(find(diff(time_gps)<=0)) = NaN;
+        ind1 = find(~isnan(time_gps));
+        [C,ind2] = unique(time_gps);
+        [C,ind3] = unique(distance_gps);
+        inda = intersect(ind1,ind2);
+        indb = intersect(ind1,ind3);
+        echogram.gps.time = time_gps(intersect(inda,indb));
+        lat_ping = interp1(echogram.gps.time, echogram.gps.lat(intersect(inda,indb)), time_ping);
 	echogram.pings(i).lat = lat_ping;
+        lon_ping = interp1(echogram.gps.time, echogram.gps.lon(intersect(inda,indb)), time_ping);
 	echogram.pings(i).lon = lon_ping;
 end
 
