@@ -30,6 +30,8 @@ fcn_prctile = @(x) prctile(x,TNprctile);
 % PROCESS
 for k=1:length(echogram.pings) % Loop upon all the frequencies
 
+    if max(echogram.pings(k).range)>mindepth
+
 	% SMOOTHED TRANSECT
         nsmooth  = length(find(echogram.pings(k).range<TNsmooth));
         Svsmooth = movmean(echogram.pings(k).Sv,nsmooth,1,'omitnan');
@@ -111,6 +113,7 @@ for k=1:length(echogram.pings) % Loop upon all the frequencies
         echogram.pings(k).SvNoise(indvec(2:end-1),2:end-1) = subSvNoise;
 	subSvNoise = []; ind1 = []; ind2 = [];
 
+    end
 end
 
 

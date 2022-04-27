@@ -179,6 +179,8 @@ rangebinmean(1:length(rangebin)-1) = (rangebin(1:length(rangebin)-1)+rangebin(2:
 
 for i=1:length(echogram.pings)
 	echogram.pings(i).range = rangebinmean;
+        ind = find(isinf(echogram.pings(i).Sv));
+        echogram.pings(i).Sv(ind) = -999;
 end
 
 

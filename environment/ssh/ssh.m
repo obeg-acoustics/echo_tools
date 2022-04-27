@@ -23,6 +23,7 @@ weekly_ssh = [];
 lon_ssh = [];
 lat_ssh = [];
 time_ssh = [];
+distance_ssh = [];
 
 for k = 1:size(YMD_unique,1)
 	flag = 0;
@@ -32,7 +33,7 @@ for k = 1:size(YMD_unique,1)
 	for l = 1 : length(sshfiles_weekly)		
         	if strfind(sshfiles_weekly(l).name,'ssh_grids')
 			if strfind(sshfiles_weekly(l).name(17:24),match_name)
-				[weekly_ssh, lon_ssh, lat_ssh, time_ssh] = weekly_ssh_extract(echogram, [sshpath_weekly,sshfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_ssh, lon_ssh, lat_ssh, time_ssh);
+				[weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh] = weekly_ssh_extract(echogram, [sshpath_weekly,sshfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh);
 				flag = 1;
         		end
         	end
@@ -46,7 +47,7 @@ for k = 1:size(YMD_unique,1)
 		for l = 1 : length(sshfiles_weekly)	
             		if strfind(sshfiles_weekly(l).name,'ssh_grids')
 				if strfind(sshfiles_weekly(l).name(17:24),match_name)
-					[weekly_ssh, lon_ssh, lat_ssh, time_ssh] = weekly_ssh_extract(echogram, [sshpath_weekly,sshfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_ssh, lon_ssh, lat_ssh, time_ssh);
+					[weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh] = weekly_ssh_extract(echogram, [sshpath_weekly,sshfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh);
 					flag = 1;
             			end
             		end
@@ -58,7 +59,9 @@ end
 % Save ssh vectors ********************************************************************************
 
 % Output
-echogram.ssh.weekly_ssh = weekly_ssh;
-echogram.ssh.lon_ssh = lon_ssh;
-echogram.ssh.lat_ssh = lat_ssh;
-echogram.ssh.time_ssh = time_ssh;
+echogram.ssh.weekly = weekly_ssh;
+echogram.ssh.daily = weekly_ssh;
+echogram.ssh.lon = lon_ssh;
+echogram.ssh.lat = lat_ssh;
+echogram.ssh.time = time_ssh;
+echogram.ssh.dist = distance_ssh; 

@@ -21,5 +21,5 @@ lat_day = echogram.pings(1).lat(ind_day);
 % Extraction of chlorophylle
 
 a = interp2(lon, lat, chl, lon_day, lat_day);
-weekly_chl = [weekly_chl; a];
+weekly_chl = [weekly_chl; a'];
 

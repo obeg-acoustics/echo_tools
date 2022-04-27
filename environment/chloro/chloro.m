@@ -31,11 +31,12 @@ daily_chl = [];
 lon_chl = [];
 lat_chl = [];
 time_chl = [];
+distance_chl = [];
 
 for k = 1:size(YMD_unique,1)
 	for l = 1 : length(chlfiles_daily)
 		if strfind(chlfiles_daily(l).name,YMD_unique(k,:))
-                	[daily_chl, lon_chl, lat_chl, time_chl] = daily_chloro_extract(echogram, [chlpath_daily,chlfiles_daily(l).name], str2num(D_unique(k,:)), daily_chl, lon_chl, lat_chl, time_chl);
+                	[daily_chl, lon_chl, lat_chl, time_chl, distance_chl] = daily_chloro_extract(echogram, [chlpath_daily,chlfiles_daily(l).name], str2num(D_unique(k,:)), daily_chl, lon_chl, lat_chl, time_chl, distance_chl);
         	end
 	end
 end
@@ -84,9 +85,10 @@ ind_nan = find(isnan(chl_vector));
 chl_vector(ind_nan) = weekly_chl(ind_nan);
 
 % Output
-echogram.chl.daily_chl = daily_chl;
-echogram.chl.weekly_chl = weekly_chl;
-echogram.chl.mixed_chl = chl_vector;
-echogram.chl.lon_chl = lon_chl;
-echogram.chl.lat_chl = lat_chl;
-echogram.chl.time_chl = time_chl;
+echogram.chl.daily = daily_chl;
+echogram.chl.weekly = weekly_chl;
+echogram.chl.mixed = chl_vector;
+echogram.chl.lon = lon_chl;
+echogram.chl.lat = lat_chl;
+echogram.chl.time = time_chl;
+echogram.chl.dist = distance_chl;

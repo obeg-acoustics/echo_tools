@@ -31,11 +31,12 @@ daily_par = [];
 lon_par = [];
 lat_par = [];
 time_par = [];
+distance_par = [];
 
 for k = 1:size(YMD_unique,1)
 	for l = 1 : length(parfiles_daily)
 		if strfind(parfiles_daily(l).name,YMD_unique(k,:))
-                	[daily_par, lon_par, lat_par, time_par] = daily_par_extract(echogram, [parpath_daily,parfiles_daily(l).name], str2num(D_unique(k,:)), daily_par, lon_par, lat_par, time_par);
+                	[daily_par, lon_par, lat_par, time_par, distance_par] = daily_par_extract(echogram, [parpath_daily,parfiles_daily(l).name], str2num(D_unique(k,:)), daily_par, lon_par, lat_par, time_par, distance_par);
         	end
 	end
 end
@@ -84,9 +85,10 @@ ind_nan = find(isnan(par_vector));
 par_vector(ind_nan) = weekly_par(ind_nan);
 
 % Output
-echogram.par.daily_par = daily_par;
-echogram.par.weekly_par = weekly_par;
-echogram.par.mixed_par = par_vector;
-echogram.par.lon_par = lon_par;
-echogram.par.lat_par = lat_par;
-echogram.par.time_par = time_par;
+echogram.par.daily = daily_par;
+echogram.par.weekly = weekly_par;
+echogram.par.mixed = par_vector;
+echogram.par.lon = lon_par;
+echogram.par.lat = lat_par;
+echogram.par.time = time_par;
+echogram.par.dist = distance_par;

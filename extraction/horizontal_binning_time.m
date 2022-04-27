@@ -183,7 +183,6 @@ for m = 1:length(echogram.pings) % Frequency loop
 end
 
 
-
 % length(timebin) and length(Svbin(:,1)) have one index of difference, so we create a new range vector that has exactly the same length of Svbin, so that we can use it to plot Svbin
 
 timebinmean = zeros(1,length(timebin)-1);
@@ -191,6 +190,8 @@ timebinmean(1,1:length(timebin)-1) = (timebin(1:length(timebin)-1)+timebin(2:len
 
 for i=1:length(echogram.pings)
 	echogram.pings(i).time = timebinmean/24/60/60;
+        ind = find(isinf(echogram.pings(i).Sv));
+        echogram.pings(i).Sv(ind) = -999;
 end
 
 % Correct velocity

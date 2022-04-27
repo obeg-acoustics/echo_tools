@@ -1,4 +1,4 @@
-function [weekly_ssh, lon_ssh, lat_ssh, time_ssh] = weekly_ssh_extract(echogram, file, day, weekly_ssh, lon_ssh, lat_ssh, time_ssh)
+function [weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh] = weekly_ssh_extract(echogram, file, day, weekly_ssh, lon_ssh, lat_ssh, time_ssh, distance_ssh)
 
 % Function to extract the ssh data for a specific day
 
@@ -20,11 +20,13 @@ ind_day = find(date_mat(:,3) == day);
 lon_day = echogram.pings(1).lon(ind_day);
 lat_day = echogram.pings(1).lat(ind_day);
 time_day = echogram.pings(1).time(ind_day);
+distance_day = echogram.pings(1).distance(ind_day);
 
 % Extraction of ssh
 
 a = interp2(lon, lat, ssh, lon_day, lat_day);
-weekly_ssh = [weekly_ssh; a];
-lon_ssh = [lon_ssh; lon_day];
-lat_ssh = [lat_ssh; lat_day];
-time_ssh = [time_ssh; time_day];
+weekly_ssh = [weekly_ssh; a'];
+lon_ssh = [lon_ssh; lon_day'];
+lat_ssh = [lat_ssh; lat_day'];
+time_ssh = [time_ssh; time_day'];
+distance_ssh = [distance_ssh; distance_day'];

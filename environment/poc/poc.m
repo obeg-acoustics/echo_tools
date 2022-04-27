@@ -2,6 +2,7 @@ function [echogram] = poc(echogram, pocpath_daily, pocpath_weekly, tagyear)
 % Scripts that reads and extracts the poc data
 
 
+
 % Load list of Poc file names
 pocfiles_daily = dir(pocpath_daily);
 pocfiles_weekly = dir(pocpath_weekly);
@@ -30,11 +31,12 @@ daily_poc = [];
 lon_poc = [];
 lat_poc = [];
 time_poc = [];
+distance_poc = [];
  
 for k = 1:size(YMD_unique,1)
 	for l = 1 : length(pocfiles_daily)
 		if strfind(pocfiles_daily(l).name,YMD_unique(k,:))
-                	[daily_poc, lon_poc, lat_poc, time_poc] = daily_poc_extract(echogram, [pocpath_daily,pocfiles_daily(l).name], str2num(D_unique(k,:)), daily_poc, lon_poc, lat_poc, time_poc);
+                	[daily_poc, lon_poc, lat_poc, time_poc, distance_poc] = daily_poc_extract(echogram, [pocpath_daily,pocfiles_daily(l).name], str2num(D_unique(k,:)), daily_poc, lon_poc, lat_poc, time_poc, distance_poc);
         	end
 	end
 end
@@ -83,9 +85,10 @@ ind_nan = find(isnan(poc_vector));
 poc_vector(ind_nan) = weekly_poc(ind_nan);
 
 % Output
-echogram.poc.daily_poc = daily_poc;
-echogram.poc.weekly_poc = weekly_poc;
-echogram.poc.mixed_poc = poc_vector;
-echogram.poc.lon_poc = lon_poc;
-echogram.poc.lat_poc = lat_poc;
-echogram.poc.time_poc = time_poc;
+echogram.poc.daily = daily_poc;
+echogram.poc.weekly = weekly_poc;
+echogram.poc.mixed = poc_vector;
+echogram.poc.lon = lon_poc;
+echogram.poc.lat = lat_poc;
+echogram.poc.time = time_poc;
+echogram.poc.dist = distance_poc;

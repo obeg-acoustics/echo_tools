@@ -21,5 +21,5 @@ lat_day = echogram.pings(1).lat(ind_day);
 % Extraction of poc
 
 a = interp2(lon, lat, poc, lon_day, lat_day);
-weekly_poc = [weekly_poc; a];
+weekly_poc = [weekly_poc; a'];
 

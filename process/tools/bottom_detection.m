@@ -52,7 +52,13 @@ while pingi < length(echogram.pings(l).time)
 
 						rangematrix_candidatepeaks = -999*ones(length(Sv_candidatepeaks), context_size);
 						for k=1:length(Sv_candidatepeaks)
-							rangematrix_candidatepeaks(k,j) = find(current_ping == Sv_candidatepeaks(k)); % Attention aux valeurs de Sv qui peuvent etre egales a des ranges differents
+							indcandidate = find(current_ping == Sv_candidatepeaks(k));
+							if length(indcandidate)<2
+							    rangematrix_candidatepeaks(k,j) = indcandidate; % Attention aux valeurs de Sv qui peuvent etre egales a des ranges differents
+							else
+							    indbest = find(abs(indcandidate-rangematrix_candidatepeaks(k-1,j))==min(abs(indcandidate-rangematrix_candidatepeaks(k-1,j))));
+							    rangematrix_candidatepeaks(k,j) = indcandidate(indbest);
+							end
 						end
 						init = 1;
 					else

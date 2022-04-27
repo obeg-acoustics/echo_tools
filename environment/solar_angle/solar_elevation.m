@@ -27,4 +27,9 @@ for i=1:length(echogram.pings(1).time)
     
 end
 
-echogram.solar_elevation = elevation;
+echogram.solar.daily = elevation';
+echogram.solar.weekly = elevation';
+echogram.solar.lon = echogram.pings(1).lon';
+echogram.solar.lat = echogram.pings(1).lat';
+echogram.solar.time = echogram.pings(1).time';
+echogram.solar.dist = echogram.pings(1).distance';

@@ -21,6 +21,7 @@ for k = 1:length(echogram.pings)
         % Correct distance
         if length(distance_gps)~=length(time_echo) 
             echogram.pings(k).distance = interp1(time_gps(ind),distance_gps(ind),time_echo);
+            echogram.pings(k).distance = fillmissing(echogram.pings(k).distance,'nearest');
             echogram.gps.distance = interp1(time_gps(ind),distance_gps(ind),time_echo);
         end
     end

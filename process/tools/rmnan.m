@@ -3,7 +3,9 @@ function [echogram] = rmnan(echogram)
 
 for k = 1:length(echogram.pings)
  
-    tmp = nansum(echogram.pings(k).Sv,2);
+    range_size = length(echogram.pings(k).time);
+    ind = find(size(echogram.pings(k).Sv)==length(echogram.pings(k).time));
+    tmp = nansum(echogram.pings(k).Sv,ind);
 
     indcorr = find(tmp~=0);
 

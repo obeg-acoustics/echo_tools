@@ -195,6 +195,8 @@ for i=1:length(echogram.pings)
         reftime    = reftimetmp(ia);
 	    echogram.pings(i).distance = distancebinmean;
         echogram.pings(i).time = interp1(refdistance(2:end), reftime(2:end), distancebinmean);
+        ind = find(isinf(echogram.pings(i).Sv));
+        echogram.pings(i).Sv(ind) = -999;
 end
 
 % Correct velocity

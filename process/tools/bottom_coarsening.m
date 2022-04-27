@@ -28,8 +28,11 @@ elseif length(time_fine)<length(depth_smooth)
     time_fine = [time_fine, NaN];
 end
 
+% Remove redudant time steps
+[time_fine, ia, ic] = unique(time_fine);
+
 % Interpolate depth on coarser times 
-depth_coarse = interp1(time_fine,depth_smooth,time_coarse); %ATT 1:end-1 fix
+depth_coarse = interp1(time_fine,depth_smooth(ia),time_coarse); %ATT 1:end-1 fix
 depth_coarse = fillmissing(depth_coarse,'movmean',10);
 
 
@@ -37,7 +40,8 @@ depth_coarse = fillmissing(depth_coarse,'movmean',10);
 indexes_coarse = [];
 for k = 1:length(depth_coarse)
    if ~isnan(depth_coarse(k))
-       indexes_coarse = [indexes_coarse, find(abs(range_coarse - depth_coarse(k))==min(abs(range_coarse - depth_coarse(k))))];
+       tmp = find(abs(range_coarse - depth_coarse(k))==min(abs(range_coarse - depth_coarse(k))));
+       indexes_coarse = [indexes_coarse, tmp(1)];
    else
        indexes_coarse = [indexes_coarse,NaN];
    end

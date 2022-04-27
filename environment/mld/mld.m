@@ -1,6 +1,7 @@
-function [echogram] = mld(echogram, mldpath_weekly,yeartag)
+function [echogram] = mld(echogram, mldpath_weekly, tagyear)
 % Scripts that reads and extracts the mld data
-% keyboard
+
+
 
 % Load mld files
 mldfiles_weekly = dir(mldpath_weekly);
@@ -27,7 +28,8 @@ YMD_unique = label_unique;
 lon_mld = [];
 lat_mld = [];
 time_mld = [];
-%
+distance_mld = [];
+
 %% List of 
 %for k = 1:size(YMD_unique,1)
 %	for l = 1 : length(chlfiles_daily)
@@ -50,10 +52,10 @@ for k = 1:size(YMD_unique,1)
 	name = YMD_unique(k,:);
 	match_name = YMD_unique(k,:);
 	for l = 1 : length(mldfiles_weekly)		
-		if strfind(mldfiles_weekly(l).name,yeartag)
+		if strfind(mldfiles_weekly(l).name,tagyear)
 		if strfind(mldfiles_weekly(l).name(26:35),match_name)
 %             if strfind(chlfiles_weekly(l).name,'AVW')
-			[weekly_mld, lon_mld, lat_mld, time_mld] = weekly_mld_extract(echogram, [mldpath_weekly,mldfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_mld, lon_mld, lat_mld, time_mld);
+			[weekly_mld, lon_mld, lat_mld, time_mld, distance_mld] = weekly_mld_extract(echogram, [mldpath_weekly,mldfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_mld, lon_mld, lat_mld, time_mld, distance_mld);
 			flag = 1;
 %             end
 		end
@@ -69,10 +71,10 @@ for k = 1:size(YMD_unique,1)
         match_name_day = match_name_day + 1;
         match_name = [match_name(1:8),num2str(match_name_day,'%02d')];
 		for l = 1 : length(mldfiles_weekly)
-			if strfind(mldfiles_weekly(l).name,yeartag)		
+			if strfind(mldfiles_weekly(l).name,tagyear)		
 			if strfind(mldfiles_weekly(l).name(26:35),match_name)
 %                 if strfind(chlfiles_weekly(l).name,'AVW')
-				[weekly_mld, lon_mld, lat_mld, time_mld] = weekly_mld_extract(echogram, [mldpath_weekly,mldfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_mld, lon_mld, lat_mld, time_mld);
+				[weekly_mld, lon_mld, lat_mld, time_mld, distance_mld] = weekly_mld_extract(echogram, [mldpath_weekly,mldfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_mld, lon_mld, lat_mld, time_mld, distance_mld);
 				flag = 1;
 %                 end
 			end
@@ -85,8 +87,9 @@ end
 
 
 %% We replace the NaNs in the daily_chl vector
-
-echogram.mld.weekly_mld = weekly_mld;
-echogram.mld.lon_mld = lon_mld;
-echogram.mld.lat_mld = lat_mld;
-echogram.mld.time_mld = time_mld;
+echogram.mld.daily = weekly_mld;
+echogram.mld.weekly = weekly_mld;
+echogram.mld.lon = lon_mld;
+echogram.mld.lat = lat_mld;
+echogram.mld.time = time_mld;
+echogram.mld.dist = distance_mld;

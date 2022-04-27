@@ -1,4 +1,4 @@
-function [echogram] = sst(echogram, sstpath_daily, sstpath_weekly)
+function [echogram] = sst(echogram, sstpath_daily, sstpath_weekly, daynight)
 % Scripts that reads and extracts the sst data
 
 
@@ -24,12 +24,18 @@ daily_sst = [];
 lon_sst = [];
 lat_sst = [];
 time_sst = [];
+distance_sst = [];
 
 for k = 1:size(YMD_unique,1)
+        findmap = 0;
 	for l = 1 : length(sstfiles_daily)
 		if strfind(sstfiles_daily(l).name,YMD_unique(k,:))
-                	[daily_sst, lon_sst, lat_sst, time_sst] = daily_sst_extract(echogram, [sstpath_daily,sstfiles_daily(l).name], str2num(D_unique(k,:)), daily_sst, lon_sst, lat_sst, time_sst);
+                        findmap = 1; 
+                	[daily_sst, lon_sst, lat_sst, time_sst, distance_sst] = daily_sst_extract(echogram, [sstpath_daily,sstfiles_daily(l).name], str2num(D_unique(k,:)), daily_sst, lon_sst, lat_sst, time_sst, distance_sst,daynight);
         	end
+	end
+        if findmap == 0   
+		disp('Warning, missing file')	
 	end
 end
 
@@ -46,7 +52,7 @@ for k = 1:size(YMD_unique,1)
 	for l = 1 : length(sstfiles_weekly)		
         	if strfind(sstfiles_weekly(l).name,'MODIS')
 			if strfind(sstfiles_weekly(l).name(21:28),match_name)
-				[weekly_sst] = weekly_sst_extract(echogram, [sstpath_weekly,sstfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_sst);
+				[weekly_sst] = weekly_sst_extract(echogram, [sstpath_weekly,sstfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_sst,daynight);
 				flag = 1;
         		end
         	end
@@ -60,7 +66,7 @@ for k = 1:size(YMD_unique,1)
 		for l = 1 : length(sstfiles_weekly)	
             		if strfind(sstfiles_weekly(l).name,'MODIS')
 				if strfind(sstfiles_weekly(l).name(21:28),match_name)
-					[weekly_sst] = weekly_sst_extract(echogram, [sstpath_weekly,sstfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_sst);
+					[weekly_sst] = weekly_sst_extract(echogram, [sstpath_weekly,sstfiles_weekly(l).name], str2num(D_unique(k,:)), weekly_sst, daynight);
 					flag = 1;
             			end
             		end
@@ -77,9 +83,20 @@ ind_nan = find(isnan(sst_vector));
 sst_vector(ind_nan) = weekly_sst(ind_nan);
 
 % Output
-echogram.sst.daily_sst = daily_sst;
-echogram.sst.weekly_sst = weekly_sst;
-echogram.sst.mixed_sst = sst_vector;
-echogram.sst.lon_sst = lon_sst;
-echogram.sst.lat_sst = lat_sst;
-echogram.sst.time_sst = time_sst;
+if strcmp(daynight,'day')
+    echogram.sst.daily = daily_sst;
+    echogram.sst.weekly = weekly_sst;
+    echogram.sst.mixed = sst_vector;
+    echogram.sst.lon = lon_sst;
+    echogram.sst.lat = lat_sst;
+    echogram.sst.time = time_sst;
+    echogram.sst.dist = distance_sst;
+elseif strcmp(daynight,'night')
+    echogram.sst4.daily = daily_sst;
+    echogram.sst4.weekly = weekly_sst;
+    echogram.sst4.mixed = sst_vector;
+    echogram.sst4.lon = lon_sst;
+    echogram.sst4.lat = lat_sst;
+    echogram.sst4.time = time_sst;
+    echogram.sst4.dist = distance_sst;
+end

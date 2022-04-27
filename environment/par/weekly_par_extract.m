@@ -21,5 +21,5 @@ lat_day = echogram.pings(1).lat(ind_day);
 % Extraction of par
 
 a = interp2(lon, lat, par, lon_day, lat_day);
-weekly_par = [weekly_par; a];
+weekly_par = [weekly_par; a'];
 

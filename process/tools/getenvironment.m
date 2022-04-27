@@ -16,8 +16,10 @@ for m = 1:length(M)
     % Environment
     T = Temperature_clim.avg_val(:,:,:,M(m));
     T(find(T>10^10)) = NaN;
+T = fillmissing(T,'linear',1,'EndValues','nearest');
     S = Salinity_clim.avg_val(:,:,:,M(m));
     S(find(S>10^10)) = NaN;
+S = fillmissing(S,'linear',1,'EndValues','nearest');
  
     % Grid
     Lon = Temperature_clim.lon;

@@ -22,6 +22,8 @@ end
 % PROCESSING
 for k=1:length(echogram.pings) % Loop upon all the frequencies
 
+    if max(echogram.pings(k).range)>R1
+
 	% SELECT DSL
 	indvec = find(R1 <= echogram.pings(k).range & echogram.pings(k).range <= R2); 
 	% We create a Sv submatrix (SvDSL, DSL for Deep Scattering Layer) by keeping all the values of Sv matrix that are between depths R1 and R2.
@@ -64,6 +66,8 @@ for k=1:length(echogram.pings) % Loop upon all the frequencies
 	% NOISE
 	echogram.pings(k).SvNoise(:,ind) = echogram.pings(k).SvNoise(:,ind) + single(7);
         ind = []; 
+
+    end
 end
 
 

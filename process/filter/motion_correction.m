@@ -13,7 +13,10 @@ for freq = 1:length(data.pings)
     c = double(repmat(data.calParms(freq).soundvelocity,[size(data.pings(freq).Sv,1),size(data.pings(freq).Sv,2)]));
     r = double(repmat(data.pings(freq).range,[1,size(data.pings(freq).Sv,2)]));
     t_receiv = t_trans + 2*r./c /3600/24;
-    
+
+    c = [];
+    r = [];   
+ 
     % Roll angles at transmission and receiption
     roll_trans = repmat(data.pings(freq).roll,[size(data.pings(freq).Sv,1),1]);
     roll_receiv = roll_trans*NaN;
