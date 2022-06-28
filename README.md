@@ -7,4 +7,4 @@ Set of Matlab scripts to process EK60/80 raw acoustic transects and analyze acou
 
 -> filter_echogram.m : Apply multiple filters to unprocessed echograms and bin the acoustic signals at desired resolution. 
 
-![alt text](https://github.com/obeg-acoustics/echo_tools/schematics.png)
+![alt text](https://github.com/obeg-acoustics/echo_tools/blob/main/schematics.png)
